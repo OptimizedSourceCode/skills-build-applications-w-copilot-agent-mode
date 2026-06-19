@@ -44,10 +44,10 @@ Run the React app with the Vite dev server (for example, `npm run dev`) and open
 
 Confirm these files include the expected endpoint paths:
 
-- `Activities.jsx` -> `/api/activities/`
-- `Leaderboard.jsx` -> `/api/leaderboard/`
-- `Teams.jsx` -> `/api/teams/`
-- `Users.jsx` -> `/api/users/`
-- `Workouts.jsx` -> `/api/workouts/`
+- `Activities.tsx` -> `/api/activities/`
+- `Leaderboard.tsx` -> `/api/leaderboard/`
+- `Teams.tsx` -> `/api/teams/`
+- `Users.tsx` -> `/api/users/`
+- `Workouts.tsx` -> `/api/workouts/`
 
 </details>
