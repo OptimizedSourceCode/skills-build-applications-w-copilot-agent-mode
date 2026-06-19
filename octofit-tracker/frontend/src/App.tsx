@@ -1,11 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+import { API_URL, getApiStatus } from './api'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [apiStatus, setApiStatus] = useState<string | null>(null)
+  const [apiError, setApiError] = useState<string | null>(null)
+
+  useEffect(() => {
+    getApiStatus()
+      .then((data) => setApiStatus(data.status || 'ok'))
+      .catch((err) => setApiError(String(err)))
+  }, [])
 
   return (
     <>
@@ -20,6 +29,13 @@ function App() {
           <p>
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
+          <div className="api-status">
+            <strong>API:</strong> <span>{API_URL}</span>
+            <div>
+              <strong>Status:</strong>{' '}
+              {apiStatus ? <span>{apiStatus}</span> : apiError ? <span>Error: {apiError}</span> : <span>loading…</span>}
+            </div>
+          </div>
         </div>
         <button
           type="button"
