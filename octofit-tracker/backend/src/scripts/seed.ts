@@ -5,14 +5,13 @@ import Workout from "../models/workout.js";
 import Activity from "../models/activity.js";
 import Leaderboard from "../models/leaderboard.js";
 
-const MONGODB_URI = "mongodb://127.0.0.1:27017/octofit_db";
+import { connectDB, disconnectDB } from "../config/database.js";
 
 console.log("Seed the octofit_db database with test data");
-mongoose.set("strictQuery", true);
 
 async function seed() {
-  await mongoose.connect(MONGODB_URI);
-  console.log(`Connected to MongoDB at ${MONGODB_URI}`);
+  await connectDB();
+  console.log(`Connected to MongoDB at ${process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/octofit_db"}`);
 
   await Promise.all([
     Team.deleteMany({}),
@@ -158,7 +157,7 @@ async function seed() {
   console.log(`Seeded ${teams.length} teams, ${users.length} users, ${workouts.length} workouts, ${activities.length} activities, and 1 leaderboard document.`);
   console.log("Sample leaderboard document ID:", leaderboard._id.toString());
 
-  await mongoose.disconnect();
+  await disconnectDB();
   console.log("Seed complete and disconnected from MongoDB.");
 }
 

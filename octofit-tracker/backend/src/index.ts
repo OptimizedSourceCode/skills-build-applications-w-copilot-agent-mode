@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import { MONGODB_URI, connectDB } from "./config/database.js";
 import usersRouter from "./routes/users.js";
 import teamsRouter from "./routes/teams.js";
 import activitiesRouter from "./routes/activities.js";
@@ -9,7 +9,6 @@ import seedRouter from "./routes/seed.js";
 
 const app = express();
 const PORT = 8000;
-const MONGODB_URI = "mongodb://127.0.0.1:27017/octofit_db";
 const CODESPACE_NAME = process.env.CODESPACE_NAME;
 const API_URL = CODESPACE_NAME
   ? `https://${CODESPACE_NAME}-8000.githubpreview.dev`
@@ -44,10 +43,7 @@ app.get("/", (_req, res) => {
   });
 });
 
-mongoose.set("strictQuery", true);
-
-mongoose
-  .connect(MONGODB_URI)
+connectDB()
   .then(() => {
     console.log(`Connected to MongoDB at ${MONGODB_URI}`);
     app.listen(PORT, () => {
