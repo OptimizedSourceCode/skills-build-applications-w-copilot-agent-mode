@@ -6,6 +6,7 @@ import activitiesRouter from "./routes/activities.js";
 import leaderboardRouter from "./routes/leaderboard.js";
 import workoutsRouter from "./routes/workouts.js";
 import seedRouter from "./routes/seed.js";
+import cors from "cors";
 
 const app = express();
 const PORT = 8000;
@@ -15,6 +16,8 @@ const API_URL = CODESPACE_NAME
   : `http://localhost:${PORT}`;
 
 app.use(express.json());
+// Allow CORS for development (frontend dev server on port 5173)
+app.use(cors({ origin: true }));
 app.use("/api/users", usersRouter);
 app.use("/api/teams", teamsRouter);
 app.use("/api/activities", activitiesRouter);
@@ -46,7 +49,8 @@ app.get("/", (_req, res) => {
 connectDB()
   .then(() => {
     console.log(`Connected to MongoDB at ${MONGODB_URI}`);
-    app.listen(PORT, () => {
+    // Bind to 0.0.0.0 so the server is reachable from the host/devcontainer forwarded ports
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`Backend running on ${API_URL}`);
     });
   })
